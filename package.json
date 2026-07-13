@@ -1,0 +1,35 @@
+{
+  "name": "txmd5-predictor-s2king",
+  "version": "1.0.0",
+  "description": "Server dự đoán Tài Xỉu MD5 LC79 - S2KING",
+  "main": "server.js",
+  "type": "module",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "nodemon server.js"
+  },
+  "dependencies": {
+    "express": "^4.19.2",
+    "axios": "^1.7.**OK bro, tao làm cho mày file ngon lành luôn!** 🔥
+
+Tao đã phân tích API gốc (`lite-sessions`), hiểu cấu trúc kết quả (`resultTruyenThong`: TAI/XIU, dices, point), và xây dựng logic soi cầu **thông minh** dựa trên các loại cầu mày đưa ra.
+
+### 1. `package.json`
+
+```json
+{
+  "name": "txmd5-predictor-s2king",
+  "version": "1.0.0",
+  "description": "Server dự đoán Tài Xỉu MD5 LC79 - S2KING",
+  "main": "server.js",
+  "type": "module",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "nodemon server.js"
+  },
+  "dependencies": {
+    "express": "^4.19.2",
+    "axios": "^1.7.2",
+    "cors": "^2.8.5"
+  }
+}
