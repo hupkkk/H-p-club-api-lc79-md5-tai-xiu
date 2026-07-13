@@ -118,30 +118,46 @@ const fetchData = async () => {
 };
 
 // API chính
-app.get('/predict', async (req, res) => {
-  await fetchData();
-  if (history.length === 0) {
-    return res.json({ error: 'Không lấy được dữ liệu' });
+// ... (phần import và analyzePattern giữ nguyên)
+
+app.get('/S2KINGLC79', async (req, res) => {
+  const results = await fetchData();
+  
+  if (results.length === 0) {
+    return res.json({ error: 'Không lấy được dữ liệu từ API' });
   }
 
-  const analysis = analyzePattern(history);
-  const lastResult = history[history.length - 1];
-  const currentId = history.length; // giả lập phiên
-
+  const latestSession = /* Lấy từ API đầy đủ hơn */ await getLatestSession();
+  
+  const analysis = analyzePattern(results);
+  
   const response = {
     Id: "S2KING",
-    Phien: currentId + 1,
-    Ket_qua_last: lastResult,
+    Phien: latestSession ? latestSession.id + 1 : results.length + 1,  // Phiên tiếp theo
+    Ket_qua_last: results[results.length - 1],
     Du_doan: analysis.prediction,
     Do_tin_cay: analysis.confidence + "%",
     Loai_cau: analysis.type,
     Reason: analysis.reason,
     Thong_ke_du_doan: "Đang cập nhật realtime...",
-    Lich_su: history.slice(-15) // 15 ván gần nhất
+    Lich_su_gan_nhat: results.slice(-12).map((kq, i) => ({
+      Phien: latestSession ? latestSession.id - (results.length - i - 1) : i,
+      KQ: kq
+    }))
   };
 
   res.json(response);
 });
+
+// Helper mới để lấy info phiên mới nhất
+const getLatestSession = async () => {
+  try {
+    const res = await axios.get(API_URL);
+    return res.data.list[0]; // Phiên mới nhất (API trả về mới nhất đầu tiên)
+  } catch (e) {
+    return null;
+  }
+};
 
 // Endpoint health
 app.get('/', (req, res) => {
